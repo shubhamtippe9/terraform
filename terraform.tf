@@ -1,3 +1,7 @@
+provider "aws" {
+  region = "us-west-2"
+}
+
 resource "aws_vpc" "example" {
   cidr_block = "172.16.0.0/16"
 
@@ -12,17 +16,18 @@ resource "aws_subnet" "example" {
   availability_zone = "us-east-2a"
 
   tags = {
-    Name = "my-subnet"
+    Name = "public-subnet"
   }
 }
 
+
+
 resource "aws_instance" "example" {
-  ami           = ami-0f3caa1cf4417e51b
+  ami           = data.aws_ami.amzn-linux-2023-ami.id
   instance_type = "t3.micro"
   subnet_id     = aws_subnet.example.id
 
   
-
   tags = {
     Name = "my-instance"
   }
